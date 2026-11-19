@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details</title>
+</head>
+<body>
+
+    <h1>Student Management System</h1>
+    <h2>Student Details</h2>
+
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}!</p>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Log Out</button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}">Staff Login</a>
+    {% endif %}
+
+    <hr>
+
+    <p><strong>Student ID:</strong> {{ student.student_id }}</p>
+    <p><strong>First Name:</strong> {{ student.first_name }}</p>
+    <p><strong>Last Name:</strong> {{ student.last_name }}</p>
+    <p><strong>Gender:</strong> {{ student.gender }}</p>
+    <p><strong>Date of Birth:</strong> {{ student.date_of_birth }}</p>
+    <p><strong>Contact Number:</strong> {{ student.contact_no }}</p>
+
+    <p>
+        <a href="{% url 'student_update' student.pk %}">
+            Edit Student
+        </a>
+    </p>
+
+    <p>
+        <a href="{% url 'student_delete' student.pk %}">
+            Delete Student
+        </a>
+    </p>
+
+    <p>
+        <a href="{% url 'student_list' %}">
+            Back to Student Directory
+        </a>
+    </p>
+
+</body>
+</html>

@@ -3,7 +3,8 @@ from django.contrib import messages
 from django.db.models import Q
 from .models import Student
 from .forms import StudentForm
-
+from django.contrib.auth.decorators import user_passes_test
+from django.shortcuts import render
 
 def student_registration(request):
     if request.method == 'POST':
@@ -145,3 +146,15 @@ def student_delete(request, pk):
         'registration/student_confirm_delete.html',
         {'student': student}
     )
+
+
+def staff_check(user):
+    return user.is_authenticated and user.is_staff
+
+@user_passes_test(staff_check, login_url='login')
+def staff_dashboard(request):
+    return render(
+        request,
+        'registration/dashboard.html'
+    )
+
